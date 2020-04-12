@@ -59,7 +59,7 @@ export default function Detalhes({ navigation }) {
                     <BtnIcon name="info" size={15} color="#E7BA40" />
                     <IconText>Visualizar Problemas</IconText>
                 </Item>
-                <Item>
+                <Item onPress={() => navigation.navigate('ConfirmarEntrega')}>
                     <BtnIcon name="check" size={15} color="#7D40E7" />
                     <IconText>Confirmar Entrega</IconText>
                 </Item>

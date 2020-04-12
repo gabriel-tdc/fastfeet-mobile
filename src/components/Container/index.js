@@ -14,7 +14,7 @@ export default function Container({ bgTop, children }) {
 
 Container.propTypes = {
     bgTop: PropTypes.bool,
-    children: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
 };
 
 Container.defaultProps = {

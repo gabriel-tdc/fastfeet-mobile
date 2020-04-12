@@ -1,4 +1,8 @@
+/* eslint-disable react/prop-types */
+import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -11,48 +15,65 @@ import Detalhes from './pages/Detalhes';
 import Perfil from './pages/Perfil';
 import InformarProblema from './pages/InformarProblema';
 import VisualizarProblemas from './pages/VisualizarProblemas';
+import ConfirmarEntrega from './pages/ConfirmarEntrega';
 
-const Routes = createAppContainer(
-    createSwitchNavigator({
-        SignIn: createSwitchNavigator({
-            SignIn,
-        }),
-        App: createBottomTabNavigator(
+const EntregasStack = createStackNavigator(
+    {
+        Dashboard,
+        Detalhes,
+        InformarProblema,
+        VisualizarProblemas,
+        ConfirmarEntrega,
+    },
+    {
+        defaultNavigationOptions: {
+            headerTitleAlign: 'center',
+            headerBackTitleVisible: false,
+            headerStyle: {
+                backgroundColor: '#7D40E7',
+            },
+            headerTintColor: '#fff',
+        },
+    }
+);
+
+EntregasStack.navigationOptions = {
+    title: 'Entregas',
+    header: null,
+    tabBarIcon: ({ tintColor }) => (
+        <Icon name="align-justify" size={20} color={tintColor} />
+    ),
+};
+
+export default (signedIn = false) =>
+    createAppContainer(
+        createSwitchNavigator(
             {
-                Entregas: createStackNavigator(
+                SignIn: createSwitchNavigator({
+                    SignIn,
+                }),
+                App: createBottomTabNavigator(
                     {
-                        Dashboard,
-                        Detalhes,
-                        InformarProblema,
-                        VisualizarProblemas,
+                        Dashboard: { screen: EntregasStack },
+                        Perfil,
                     },
                     {
-                        defaultNavigationOptions: {
-                            headerTitleAlign: 'center',
-                            headerBackTitleVisible: false,
-                            headerStyle: {
-                                backgroundColor: '#7D40E7',
+                        tabBarOptions: {
+                            showIcon: true,
+                            keyboardHidesTabBar: true,
+                            activeTintColor: '#7D40E7',
+                            inactiveTintColor: '#999999',
+                            style: {
+                                borderTopColor: '#DDD',
+                                backgroundColor: '#FFF',
+                                color: '#ff0',
                             },
-                            headerTintColor: '#fff',
                         },
                     }
                 ),
-                Perfil,
             },
             {
-                tabBarOptions: {
-                    keyboardHidesTabBar: true,
-                    activeTintColor: '#7D40E7',
-                    inactiveTintColor: '#999999',
-                    style: {
-                        borderTopColor: '#DDD',
-                        backgroundColor: '#FFF',
-                        color: '#ff0',
-                    },
-                },
+                initialRouteName: signedIn ? 'App' : 'SignIn',
             }
-        ),
-    })
-);
-
-export default Routes;
+        )
+    );
