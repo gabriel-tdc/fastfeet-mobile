@@ -39,10 +39,11 @@ export const ButtonBox = styled.View`
 `;
 
 export const Item = styled.TouchableOpacity`
-    width: 33.3%;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex: 1;
+    flex-direction: column;
+    /* flex-wrap: wrap; */
     justify-content: center;
+    align-items: center;
     border: 1px solid #ddd;
     padding: 14px;
 `;
@@ -50,6 +51,7 @@ export const Item = styled.TouchableOpacity`
 export const IconText = styled.Text`
     text-align: center;
     color: #999999;
+    font-size: 14px;
 `;
 
 export const BtnIcon = styled(Icon)`

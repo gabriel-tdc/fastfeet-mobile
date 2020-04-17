@@ -2,6 +2,8 @@ import { Image } from 'react-native';
 
 import styled from 'styled-components/native';
 
+import BoxComp from '~/components/Box';
+
 export const Container = styled.ScrollView`
     padding: 20px;
 `;
@@ -34,6 +36,11 @@ export const Title = styled.Text`
     font-size: 22px;
     color: #444444;
 `;
+export const SubTitle = styled.Text`
+    font-weight: bold;
+    font-size: 18px;
+    color: #444444;
+`;
 
 export const FilterTitle = styled.View`
     justify-content: space-between;
@@ -50,4 +57,8 @@ export const ButtonFilter = styled.Text`
     font-size: 14px;
     margin-left: 10px;
     color: ${(props) => (props.active ? '#7d40e7' : '#999999')};
+`;
+
+export const Box = styled(BoxComp)`
+    margin-top: 15px;
 `;

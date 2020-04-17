@@ -3,6 +3,8 @@ import { Image, TouchableOpacity, FlatList } from 'react-native';
 
 import { useDispatch, useSelector } from 'react-redux';
 
+import { withNavigationFocus } from 'react-navigation';
+
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import api from '~/services/api';
@@ -16,15 +18,18 @@ import Delivery from '~/components/Delivery';
 import {
     Header,
     Avatar,
+    Box,
     TextTop,
     Welcome,
     Title,
+    SubTitle,
     FilterTitle,
     Filters,
     ButtonFilter,
+    EmptyDeliveries,
 } from './styles';
 
-export default function Dashboard({ navigation }) {
+function Dashboard({ isFocused, navigation }) {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
     const [filterEntregues, setFilterEntregues] = useState(false);
@@ -50,20 +55,27 @@ export default function Dashboard({ navigation }) {
         });
     }
 
+    async function loadDeliveries() {
+        setLoading(true);
+        const response = await api.get(`deliveryman/${id}/deliveries`, {
+            params: {
+                delivered: filterEntregues,
+            },
+        });
+
+        setDeliveries(response.data);
+        setLoading(false);
+    }
+
     useEffect(() => {
-        async function loadDeliveries() {
-            const response = await api.get(`deliveryman/${id}/deliveries`, {
-                params: {
-                    delivered: filterEntregues,
-                },
-            });
-
-            setDeliveries(response.data);
-            setLoading(false);
-        }
-
         loadDeliveries();
     }, [filterEntregues]);
+
+    useEffect(() => {
+        if (isFocused) {
+            loadDeliveries();
+        }
+    }, [isFocused]);
 
     return (
         <>
@@ -100,19 +112,29 @@ export default function Dashboard({ navigation }) {
                         </TouchableOpacity>
                     </Filters>
                 </FilterTitle>
+
                 {loading ? (
                     <Loading />
                 ) : (
-                    <FlatList
-                        data={deliveries}
-                        keyExtractor={(item) => item.id.toString()}
-                        renderItem={({ item }) => (
-                            <Delivery
-                                data={item}
-                                onPress={() => navigate('Detalhes', item.id)}
-                            />
+                    <>
+                        {!deliveries.length && (
+                            <Box>
+                                <SubTitle>Nenhuma entrega localizada</SubTitle>
+                            </Box>
                         )}
-                    />
+                        <FlatList
+                            data={deliveries}
+                            keyExtractor={(item) => item.id.toString()}
+                            renderItem={({ item }) => (
+                                <Delivery
+                                    data={item}
+                                    onPress={() =>
+                                        navigate('Detalhes', item.id)
+                                    }
+                                />
+                            )}
+                        />
+                    </>
                 )}
             </Container>
         </>
@@ -126,3 +148,5 @@ Dashboard.navigationOptions = {
         <Icon name="align-justify" size={20} color={tintColor} />
     ),
 };
+
+export default withNavigationFocus(Dashboard);

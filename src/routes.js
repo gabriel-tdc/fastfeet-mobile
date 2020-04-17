@@ -19,11 +19,11 @@ import ConfirmarEntrega from './pages/ConfirmarEntrega';
 
 const EntregasStack = createStackNavigator(
     {
-        ConfirmarEntrega,
         Dashboard,
         Detalhes,
         InformarProblema,
         VisualizarProblemas,
+        ConfirmarEntrega,
     },
     {
         defaultNavigationOptions: {

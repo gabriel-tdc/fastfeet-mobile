@@ -43,12 +43,6 @@ export default function Detalhes({ navigation }) {
         loadDelivery();
     }, []);
 
-    function navigate(route, id) {
-        navigation.navigate(route, {
-            id,
-        });
-    }
-
     let status = '';
     if (delivery.canceled_at) {
         status = 'Cancelado';
@@ -126,17 +120,23 @@ export default function Detalhes({ navigation }) {
                     </Box>
 
                     <ButtonBox>
-                        <Item
-                            onPress={() =>
-                                navigation.navigate('InformarProblema', {
-                                    id,
-                                    product: delivery.product,
-                                })
-                            }
-                        >
-                            <BtnIcon name="times" size={15} color="#E74040" />
-                            <IconText>Informar Problema</IconText>
-                        </Item>
+                        {!delivery.end_date && (
+                            <Item
+                                onPress={() =>
+                                    navigation.navigate('InformarProblema', {
+                                        id,
+                                        product: delivery.product,
+                                    })
+                                }
+                            >
+                                <BtnIcon
+                                    name="times"
+                                    size={15}
+                                    color="#E74040"
+                                />
+                                <IconText>Informar{`\n`}Problemas</IconText>
+                            </Item>
+                        )}
                         <Item
                             onPress={() =>
                                 navigation.navigate('VisualizarProblemas', {
@@ -146,16 +146,25 @@ export default function Detalhes({ navigation }) {
                             }
                         >
                             <BtnIcon name="info" size={15} color="#E7BA40" />
-                            <IconText>Visualizar Problemas</IconText>
+                            <IconText>Visualizar{`\n`}Problemas</IconText>
                         </Item>
-                        <Item
-                            onPress={() =>
-                                navigation.navigate('ConfirmarEntrega')
-                            }
-                        >
-                            <BtnIcon name="check" size={15} color="#7D40E7" />
-                            <IconText>Confirmar Entrega</IconText>
-                        </Item>
+                        {!delivery.end_date && (
+                            <Item
+                                onPress={() =>
+                                    navigation.navigate('ConfirmarEntrega', {
+                                        id,
+                                        product: delivery.product,
+                                    })
+                                }
+                            >
+                                <BtnIcon
+                                    name="check"
+                                    size={15}
+                                    color="#7D40E7"
+                                />
+                                <IconText>Confirmar{`\n`}Entrega</IconText>
+                            </Item>
+                        )}
                     </ButtonBox>
                 </Container>
             )}
