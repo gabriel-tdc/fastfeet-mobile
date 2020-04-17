@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { StyleSheet } from 'react-native';
+import { useDispatch } from 'react-redux';
+
+import { problemRequest } from '~/store/modules/problem/actions';
 
 import Container from '~/components/Container';
 import Box from '~/components/Box';
@@ -15,6 +18,17 @@ const styles = StyleSheet.create({
 });
 
 export default function InformarProblema({ navigation }) {
+    const { id } = navigation.state.params;
+
+    const dispatch = useDispatch();
+
+    const [description, setDescription] = useState('');
+
+    function onSubmit() {
+        dispatch(problemRequest(id, description));
+        navigation.goBack();
+    }
+
     return (
         <>
             <Container bgTop>
@@ -23,12 +37,11 @@ export default function InformarProblema({ navigation }) {
                         style={styles.input}
                         multiline
                         numberOfLines={4}
+                        onChangeText={setDescription}
                         placeholder="Inclua aqui o problema que ocorreu na entrega."
                     />
                     <Button
-                        onPress={() =>
-                            navigation.navigate('VisualizarProblemas')
-                        }
+                        onPress={() => onSubmit()}
                         style={{ backgroundColor: '#7D40E7' }}
                     >
                         Enviar

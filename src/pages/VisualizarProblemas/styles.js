@@ -9,9 +9,12 @@ export const Title = styled.Text`
     margin-bottom: 15px;
 `;
 
-export const Message = styled.Text`
+export const Message = styled.Text.attrs({
+    // numberOfLines: 1,
+})`
     color: #999999;
     font-size: 16px;
+    max-width: 200px;
 `;
 
 export const Data = styled.Text`
@@ -22,5 +25,5 @@ export const Data = styled.Text`
 export const Box = styled(ComponentBox)`
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
 `;

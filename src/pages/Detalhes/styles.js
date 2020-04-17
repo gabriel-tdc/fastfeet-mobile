@@ -6,17 +6,16 @@ export const Container = styled.ScrollView`
     padding: 20px;
 `;
 
-export const BoxHeader = styled.Text`
+export const BoxHeader = styled.View`
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
 `;
 
 export const BoxTitle = styled.Text`
     font-size: 18px;
     color: #7d40e7;
     font-weight: bold;
-    margin-left: 50px;
+    margin-left: 5px;
 `;
 
 export const SubTitle = styled.Text`

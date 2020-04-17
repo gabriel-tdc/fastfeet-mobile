@@ -1,27 +1,26 @@
+import { Alert } from 'react-native';
+
 import { takeLatest, call, put, all } from 'redux-saga/effects';
 
-import { toast } from 'react-toastify';
-
-import history from '~/services/history';
 import api from '~/services/api';
 
-import { problemCancelSuccess, problemCancelFailure } from './actions';
+import { problemRequestSuccess, problemRequestFailure } from './actions';
 
-export function* problemCancel({ payload }) {
-  try {
-    const { id } = payload;
+export function* problemRequest({ payload }) {
+    try {
+        const { id, description } = payload;
 
-    yield call(api.delete, `/problem/${id}/cancel-delivery/`);
+        yield call(api.post, `/delivery/${id}/problems/`, {
+            description,
+        });
 
-    toast.success('Encomenda cancelada com sucesso!');
+        Alert.alert('Aviso', 'Problema cadastrado com sucesso!');
 
-    yield put(problemCancelSuccess());
-
-    history.push('/problemas');
-  } catch (err) {
-    toast.error('Erro ao cancelar encomenda!');
-    yield put(problemCancelFailure());
-  }
+        yield put(problemRequestSuccess());
+    } catch (err) {
+        Alert.alert('Aviso', 'Erro ao relatar problema!');
+        yield put(problemRequestFailure());
+    }
 }
 
-export default all([takeLatest('@problem/PROBLEM_CANCEL', problemCancel)]);
+export default all([takeLatest('@problem/PROBLEM_REQUEST', problemRequest)]);

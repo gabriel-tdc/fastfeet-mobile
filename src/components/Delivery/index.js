@@ -1,6 +1,9 @@
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
 
+import PropTypes from 'prop-types';
+import { useNavigation } from '@react-navigation/native';
+
 import { format } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 
@@ -20,18 +23,20 @@ import {
     DetailsLink,
 } from './styles';
 
-export default function Delivery({ data }) {
+export default function Delivery({ data, onPress }) {
     return (
         <Container>
             <DeliveryHeader>
                 <Icon name="truck" color="#7D40E7" size={22} />
-                <DeliveryTitle>Encomenda {data.id}</DeliveryTitle>
+                <View>
+                    <DeliveryTitle>{data.product}</DeliveryTitle>
+                </View>
             </DeliveryHeader>
             <Status>
                 <StatusBar>
                     <Item active />
-                    <Item active />
-                    <Item active={false} />
+                    <Item active={!!data.start_date} />
+                    <Item active={!!data.end_date} />
                 </StatusBar>
                 <StatusText>Aguardando retirada</StatusText>
                 <StatusText>Retirada</StatusText>
@@ -50,10 +55,22 @@ export default function Delivery({ data }) {
                     <Label>Cidade</Label>
                     <Value>{data.recipients.city}</Value>
                 </View>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={onPress}>
                     <DetailsLink>Ver detalhes</DetailsLink>
                 </TouchableOpacity>
             </DeliveryFooter>
         </Container>
     );
 }
+
+Delivery.propTypes = {
+    data: PropTypes.shape({
+        product: PropTypes.string,
+        start_date: PropTypes.string,
+        updatedAt: PropTypes.string,
+        end_date: PropTypes.string,
+        recipients: PropTypes.shape({
+            city: PropTypes.string,
+        }),
+    }).isRequired,
+};

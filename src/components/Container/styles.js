@@ -2,7 +2,6 @@ import styled from 'styled-components/native';
 
 export const Element = styled.ScrollView`
     padding: 20px;
-    /* background: #fff; */
 `;
 
 export const BackgroundTop = styled.View`

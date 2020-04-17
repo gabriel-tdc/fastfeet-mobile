@@ -1,18 +1,18 @@
-export function problemCancel(id, data) {
-  return {
-    type: '@problem/PROBLEM_CANCEL',
-    payload: { id, data },
-  };
+export function problemRequest(id, description) {
+    return {
+        type: '@problem/PROBLEM_REQUEST',
+        payload: { id, description },
+    };
 }
 
-export function problemCancelSuccess() {
-  return {
-    type: '@problem/PROBLEM_CANCEL_SUCCESS',
-  };
+export function problemRequestSuccess() {
+    return {
+        type: '@problem/PROBLEM_REQUEST_SUCCESS',
+    };
 }
 
-export function problemCancelFailure() {
-  return {
-    type: '@problem/PROBLEM_CANCEL_FAILURE',
-  };
+export function problemRequestFailure() {
+    return {
+        type: '@problem/PROBLEM_REQUEST_FAILURE',
+    };
 }

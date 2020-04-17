@@ -34,3 +34,20 @@ export const Title = styled.Text`
     font-size: 22px;
     color: #444444;
 `;
+
+export const FilterTitle = styled.View`
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+`;
+
+export const Filters = styled.View`
+    justify-content: space-between;
+    flex-direction: row;
+`;
+
+export const ButtonFilter = styled.Text`
+    font-size: 14px;
+    margin-left: 10px;
+    color: ${(props) => (props.active ? '#7d40e7' : '#999999')};
+`;
