@@ -22,6 +22,13 @@ export const Data = styled.Text`
     font-size: 12px;
 `;
 
+export const SubTitle = styled.Text`
+    font-size: 16px;
+    color: #444444;
+    text-align: center;
+    flex: 1;
+`;
+
 export const Box = styled(ComponentBox)`
     flex-direction: row;
     justify-content: space-between;

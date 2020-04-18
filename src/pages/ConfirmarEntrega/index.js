@@ -1,11 +1,14 @@
+/* global FormData */
+/* eslint no-undef: "error" */
 import React, { useState, useRef } from 'react';
 
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import PropTypes from 'prop-types';
 
 import { RNCamera } from 'react-native-camera';
 
 import { format } from 'date-fns';
-import pt from 'date-fns/locale/pt';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
 import api from '~/services/api';
 
 import Container from '~/components/Container';
@@ -28,7 +31,11 @@ export default function ConfirmarEntrega({ navigation }) {
     async function takePicture() {
         const camera = refCamera.current;
         if (camera) {
-            const options = { quality: 1, base64: false };
+            const options = {
+                quality: 1,
+                width: 768,
+                base64: false,
+            };
             const data = await camera.takePictureAsync(options);
             setPreview(data.uri);
         }
@@ -52,7 +59,7 @@ export default function ConfirmarEntrega({ navigation }) {
             name: fileName,
         });
 
-        const response = await api.put(`delivery/${id}/status/`, data);
+        await api.put(`delivery/${id}/status/`, data);
 
         setLoading(false);
 
@@ -60,7 +67,7 @@ export default function ConfirmarEntrega({ navigation }) {
     }
 
     return (
-        <Container>
+        <Container scroll>
             <PhotoHolder>
                 {!preview ? (
                     <Camera
@@ -95,7 +102,7 @@ export default function ConfirmarEntrega({ navigation }) {
             <Button
                 loading={loading}
                 disabled={!preview}
-                onPress={!!preview && handleSubmit}
+                onPress={!preview ? () => {} : handleSubmit}
             >
                 {preview ? 'Enviar' : 'Aguardando foto'}
             </Button>
@@ -105,4 +112,13 @@ export default function ConfirmarEntrega({ navigation }) {
 
 ConfirmarEntrega.navigationOptions = {
     title: 'Confirmar Entrega',
+};
+
+ConfirmarEntrega.propTypes = {
+    navigation: PropTypes.shape({
+        navigate: PropTypes.func.isRequired,
+        state: PropTypes.shape({
+            params: PropTypes.object.isRequired,
+        }),
+    }).isRequired,
 };

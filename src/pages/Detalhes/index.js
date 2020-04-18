@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { Alert } from 'react-native';
 
-import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -28,7 +28,6 @@ import {
 export default function Detalhes({ navigation }) {
     const { id } = navigation.state.params;
 
-    const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
     const [delivery, setDelivery] = useState([]);
 
@@ -54,12 +53,32 @@ export default function Detalhes({ navigation }) {
         status = 'Aguardando Retirada';
     }
 
+    async function handleRetirada() {
+        try {
+            const start_date = format(new Date(), "yyyy-MM-dd'T'hh:mm:ssxxx");
+            await api.put(`delivery/${id}/status/`, {
+                start_date,
+            });
+
+            Alert.alert('Aviso', 'Encomenda marcada como retirada.');
+
+            navigation.navigate('Dashboard');
+        } catch (err) {
+            Alert.alert(
+                'Erro',
+                err.response.request._response
+                    ? JSON.parse(err.response.request._response).error
+                    : 'Ocorreu um erro'
+            );
+        }
+    }
+
     return (
         <>
             {loading ? (
                 <Loading />
             ) : (
-                <Container bgTop>
+                <Container bgTop scroll>
                     <Box>
                         <BoxHeader>
                             <Icon name="truck" size={20} color="#7D40E7" />
@@ -107,7 +126,7 @@ export default function Detalhes({ navigation }) {
 
                         <SubTitle>DATA DE ENTREGA</SubTitle>
                         <Text>
-                            {delivery.start_date
+                            {delivery.end_date
                                 ? format(
                                       new Date(delivery.end_date),
                                       "dd'/'MM'/'yyyy",
@@ -148,7 +167,7 @@ export default function Detalhes({ navigation }) {
                             <BtnIcon name="info" size={15} color="#E7BA40" />
                             <IconText>Visualizar{`\n`}Problemas</IconText>
                         </Item>
-                        {!delivery.end_date && (
+                        {!delivery.end_date && delivery.start_date && (
                             <Item
                                 onPress={() =>
                                     navigation.navigate('ConfirmarEntrega', {
@@ -165,6 +184,16 @@ export default function Detalhes({ navigation }) {
                                 <IconText>Confirmar{`\n`}Entrega</IconText>
                             </Item>
                         )}
+                        {!delivery.start_date && (
+                            <Item onPress={() => handleRetirada()}>
+                                <BtnIcon
+                                    name="check"
+                                    size={15}
+                                    color="#82BF18"
+                                />
+                                <IconText>Marcar{`\n`}Retirada</IconText>
+                            </Item>
+                        )}
                     </ButtonBox>
                 </Container>
             )}
@@ -174,4 +203,13 @@ export default function Detalhes({ navigation }) {
 
 Detalhes.navigationOptions = {
     title: 'Detalhes da encomenda',
+};
+
+Detalhes.propTypes = {
+    navigation: PropTypes.shape({
+        navigate: PropTypes.func.isRequired,
+        state: PropTypes.shape({
+            params: PropTypes.object.isRequired,
+        }),
+    }).isRequired,
 };

@@ -45,6 +45,30 @@ EntregasStack.navigationOptions = {
     ),
 };
 
+const PerfilStack = createStackNavigator(
+    {
+        Perfil,
+    },
+    {
+        defaultNavigationOptions: {
+            headerTitleAlign: 'center',
+            headerBackTitleVisible: false,
+            headerStyle: {
+                backgroundColor: '#7D40E7',
+            },
+            headerTintColor: '#fff',
+        },
+    }
+);
+
+PerfilStack.navigationOptions = {
+    title: 'Perfil',
+    header: null,
+    tabBarIcon: ({ tintColor }) => (
+        <Icon name="user-circle" size={20} color={tintColor} />
+    ),
+};
+
 export default (signedIn = false) =>
     createAppContainer(
         createSwitchNavigator(
@@ -55,7 +79,7 @@ export default (signedIn = false) =>
                 App: createBottomTabNavigator(
                     {
                         Dashboard: { screen: EntregasStack },
-                        Perfil,
+                        Perfil: { screen: PerfilStack },
                     },
                     {
                         tabBarOptions: {

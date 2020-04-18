@@ -8,6 +8,9 @@ export default function Box({ children, ...rest }) {
 }
 
 Box.propTypes = {
-    children: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
-        .isRequired,
+    children: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.array,
+        PropTypes.node,
+    ]).isRequired,
 };

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, TouchableOpacity } from 'react-native';
+import { FlatList } from 'react-native';
+
+import PropTypes from 'prop-types';
 
 import { format } from 'date-fns';
 import pt from 'date-fns/locale/pt';
@@ -8,7 +10,7 @@ import api from '~/services/api';
 import Loading from '~/components/Loading';
 import Container from '~/components/Container';
 
-import { Title, Message, Data, Box } from './styles';
+import { Title, SubTitle, Message, Data, Box } from './styles';
 
 export default function InformarProblema({ navigation }) {
     const { id, product } = navigation.state.params;
@@ -32,28 +34,35 @@ export default function InformarProblema({ navigation }) {
             {loading ? (
                 <Loading />
             ) : (
-                <Container bgTop>
-                    <Title>{product}</Title>
+                <>
+                    <Container bgTop>
+                        <Title>{product}</Title>
 
-                    <FlatList
-                        data={problems}
-                        keyExtractor={(item) => item.id.toString()}
-                        renderItem={({ item }) => (
+                        {!problems.length && (
                             <Box>
-                                <Message>{item.description}</Message>
-                                <Data>
-                                    {format(
-                                        new Date(item.createdAt),
-                                        "dd'/'MM'/'yyyy",
-                                        {
-                                            locale: pt,
-                                        }
-                                    )}
-                                </Data>
+                                <SubTitle>Nenhum problema cadastrado</SubTitle>
                             </Box>
                         )}
-                    />
-                </Container>
+                        <FlatList
+                            data={problems}
+                            keyExtractor={(item) => item.id.toString()}
+                            renderItem={({ item }) => (
+                                <Box>
+                                    <Message>{item.description}</Message>
+                                    <Data>
+                                        {format(
+                                            new Date(item.createdAt),
+                                            "dd'/'MM'/'yyyy",
+                                            {
+                                                locale: pt,
+                                            }
+                                        )}
+                                    </Data>
+                                </Box>
+                            )}
+                        />
+                    </Container>
+                </>
             )}
         </>
     );
@@ -61,4 +70,13 @@ export default function InformarProblema({ navigation }) {
 
 InformarProblema.navigationOptions = {
     title: 'Visualizar problemas',
+};
+
+InformarProblema.propTypes = {
+    navigation: PropTypes.shape({
+        navigate: PropTypes.func.isRequired,
+        state: PropTypes.shape({
+            params: PropTypes.object.isRequired,
+        }),
+    }).isRequired,
 };

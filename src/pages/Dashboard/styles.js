@@ -36,6 +36,7 @@ export const Title = styled.Text`
     font-size: 22px;
     color: #444444;
 `;
+
 export const SubTitle = styled.Text`
     font-weight: bold;
     font-size: 18px;

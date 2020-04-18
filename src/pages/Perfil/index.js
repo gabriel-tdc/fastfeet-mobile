@@ -2,8 +2,6 @@ import React from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import Icon from 'react-native-vector-icons/FontAwesome5';
-
 import { format } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 
@@ -14,12 +12,10 @@ import Button from '~/components/Button';
 
 import { Avatar, Label, Value } from './styles';
 
-export default function Perfil({ navigation }) {
+export default function Perfil() {
     const dispatch = useDispatch();
 
-    const { id, name, email, created_at } = useSelector(
-        (state) => state.auth.user
-    );
+    const { name, email, created_at } = useSelector((state) => state.auth.user);
     const avatar = useSelector((state) =>
         state.auth.user.avatar ? state.auth.user.avatar.path : false
     );
@@ -64,9 +60,5 @@ export default function Perfil({ navigation }) {
 }
 
 Perfil.navigationOptions = {
-    // headerShown: false,
-    tabBarLabel: 'Meu Perfil',
-    tabBarIcon: ({ tintColor }) => (
-        <Icon name="user-circle" size={20} color={tintColor} />
-    ),
+    headerShown: false,
 };

@@ -1,13 +1,17 @@
 import React from 'react';
 
 import PropTypes from 'prop-types';
-import { Element, BackgroundTop } from './styles';
+import { Element, BackgroundTop, Scroll } from './styles';
 
-export default function Container({ bgTop, children }) {
+export default function Container({ bgTop, scroll, children }) {
     return (
         <>
             {bgTop && <BackgroundTop />}
-            <Element>{children}</Element>
+            {scroll ? (
+                <Scroll>{children}</Scroll>
+            ) : (
+                <Element>{children}</Element>
+            )}
         </>
     );
 }
@@ -15,8 +19,10 @@ export default function Container({ bgTop, children }) {
 Container.propTypes = {
     bgTop: PropTypes.bool,
     children: PropTypes.node.isRequired,
+    scroll: PropTypes.bool,
 };
 
 Container.defaultProps = {
     bgTop: false,
+    scroll: false,
 };

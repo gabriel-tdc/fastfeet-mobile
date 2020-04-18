@@ -1,6 +1,11 @@
 import styled from 'styled-components/native';
 
-export const Element = styled.ScrollView`
+export const Element = styled.View`
+    padding: 20px;
+    margin-bottom: 90px;
+`;
+
+export const Scroll = styled.ScrollView`
     padding: 20px;
 `;
 

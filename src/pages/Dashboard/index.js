@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Image, TouchableOpacity, FlatList } from 'react-native';
+import { TouchableOpacity, FlatList } from 'react-native';
+
+import PropTypes from 'prop-types';
 
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -26,7 +28,6 @@ import {
     FilterTitle,
     Filters,
     ButtonFilter,
-    EmptyDeliveries,
 } from './styles';
 
 function Dashboard({ isFocused, navigation }) {
@@ -49,9 +50,9 @@ function Dashboard({ isFocused, navigation }) {
         setFilterEntregues(param);
     }
 
-    function navigate(route, id) {
+    function navigate(route, idParam) {
         navigation.navigate(route, {
-            id,
+            id: idParam,
         });
     }
 
@@ -143,10 +144,14 @@ function Dashboard({ isFocused, navigation }) {
 
 Dashboard.navigationOptions = {
     headerShown: false,
-    tabBarLabel: 'Entregaas',
-    tabBarIcon: ({ tintColor }) => (
-        <Icon name="align-justify" size={20} color={tintColor} />
-    ),
 };
 
 export default withNavigationFocus(Dashboard);
+
+Dashboard.propTypes = {
+    navigation: PropTypes.shape({
+        navigate: PropTypes.func.isRequired,
+    }).isRequired,
+
+    isFocused: PropTypes.bool.isRequired,
+};

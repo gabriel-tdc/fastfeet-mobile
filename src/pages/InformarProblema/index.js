@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
 
+import PropTypes from 'prop-types';
+
 import { problemRequest } from '~/store/modules/problem/actions';
 
 import Container from '~/components/Container';
@@ -54,4 +56,14 @@ export default function InformarProblema({ navigation }) {
 
 InformarProblema.navigationOptions = {
     title: 'Informar Problema',
+};
+
+InformarProblema.propTypes = {
+    navigation: PropTypes.shape({
+        navigate: PropTypes.func.isRequired,
+        goBack: PropTypes.func.isRequired,
+        state: PropTypes.shape({
+            params: PropTypes.object.isRequired,
+        }),
+    }).isRequired,
 };

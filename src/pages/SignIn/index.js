@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Alert, Image } from 'react-native';
+import { Image } from 'react-native';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { signInRequest } from '~/store/modules/auth/actions';
